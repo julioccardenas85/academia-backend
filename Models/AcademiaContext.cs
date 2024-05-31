@@ -33,6 +33,8 @@ public partial class AcademiaContext : DbContext
 
     public virtual DbSet<Grupo> Grupos { get; set; }
 
+    public virtual DbSet<GruposView> GruposViews { get; set; }
+
     public virtual DbSet<Horario> Horarios { get; set; }
 
     public virtual DbSet<HorarioClases2> HorarioClases2s { get; set; }
@@ -245,6 +247,21 @@ public partial class AcademiaContext : DbContext
                 .HasConstraintName("idInstructores");
         });
 
+        modelBuilder.Entity<GruposView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("grupos_view");
+
+            entity.Property(e => e.Idgrupos).HasColumnName("idgrupos");
+            entity.Property(e => e.Instructor)
+                .HasMaxLength(91)
+                .HasColumnName("instructor");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(45)
+                .HasColumnName("nombre");
+        });
+
         modelBuilder.Entity<Horario>(entity =>
         {
             entity.HasKey(e => e.Idhorarios).HasName("PRIMARY");
@@ -295,6 +312,8 @@ public partial class AcademiaContext : DbContext
 
             entity.HasIndex(e => e.IdDirecciones, "idDirecciones4_idx");
 
+            entity.HasIndex(e => e.Usuario, "usuario_UNIQUE").IsUnique();
+
             entity.Property(e => e.Idinstructores).HasColumnName("idinstructores");
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(45)
@@ -307,6 +326,9 @@ public partial class AcademiaContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(20)
                 .HasColumnName("telefono");
+            entity.Property(e => e.Usuario)
+                .HasMaxLength(45)
+                .HasColumnName("usuario");
 
             entity.HasOne(d => d.IdDireccionesNavigation).WithMany(p => p.Instructores)
                 .HasForeignKey(d => d.IdDirecciones)
