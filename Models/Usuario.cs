@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Server.Models;
 
-public partial class Alumno
+public partial class Usuario
 {
-    public int Idalumnos { get; set; }
+    public int IdUsuarios { get; set; }
 
     public string Nombre { get; set; } = null!;
 
@@ -15,13 +15,17 @@ public partial class Alumno
 
     public string? Telefono { get; set; }
 
-    public string? User { get; set; }
+    public string Email { get; set; } = null!;
 
     public string? Contacto { get; set; }
 
     public string? TelefonoContacto { get; set; }
 
-    public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
+    public int? IdRoles { get; set; }
 
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+    public string? Password { get; set; }
+
+    public virtual ICollection<Grupo> Grupos { get; set; } = new List<Grupo>();
+
+    public virtual Role? IdRolesNavigation { get; set; }
 }

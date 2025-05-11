@@ -9,5 +9,7 @@ public partial class GruposView
 
     public string Nombre { get; set; } = null!;
 
-    public string? Instructor { get; set; }
+    public int? IdInstructores { get; set; }
+
+    public string Instructor { get; set; } = null!;
 }

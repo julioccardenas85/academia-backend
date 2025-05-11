@@ -13,7 +13,5 @@ public partial class Academia
 
     public string? Telefono { get; set; }
 
-    public virtual ICollection<Grupo> Grupos { get; set; } = new List<Grupo>();
-
     public virtual Direccione? IdDireccionesNavigation { get; set; }
 }

@@ -30,15 +30,15 @@ namespace Server.Controllers
             }
         }
 
-        // POST api/<InstructorController>
+        // POST api/<GrupoController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Instructore instructor)
+        public async Task<IActionResult> Post([FromBody] Grupo grupo)
         {
             try
             {
-                _context.Instructores.Add(instructor);
+                _context.Grupos.Add(grupo);
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "Instructor agregado exitosamente" });
+                return Ok(new { message = "Grupo agregado exitosamente" });
             }
             catch (Exception ex)
             {
@@ -46,27 +46,24 @@ namespace Server.Controllers
             }
         }
 
-        // PUT api/<InstructorController>/5
+        // PUT api/<GrupoController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Instructore instructorEditado)
+        public async Task<IActionResult> Put(int id, [FromBody] Grupo grupoEditado)
         {
             try
             {
-                var instructor = _context.Instructores.FirstOrDefault(r => r.Idinstructores == id);
-                if (instructor == null)
+                var grupo = _context.Grupos.FirstOrDefault(r => r.Idgrupos == id);
+                if (grupo == null)
                 {
                     return NotFound();
                 }
 
-                instructor.Usuario = instructorEditado.Usuario;
-                instructor.Nombre = instructorEditado.Nombre;
-                instructor.Apellidos = instructorEditado.Apellidos;
-                instructor.FechaNacimiento = instructorEditado.FechaNacimiento;
-                instructor.Telefono = instructorEditado.Telefono;
+                grupo.Nombre = grupoEditado.Nombre;
+                grupo.IdInstructores = grupoEditado.IdInstructores;
 
-                _context.Entry(instructor).State = EntityState.Modified;
+                _context.Entry(grupo).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "Instructor editado exitosamente" });
+                return Ok(new { message = "Grupo editado exitosamente" });
 
             }
             catch (Exception ex)
@@ -75,20 +72,20 @@ namespace Server.Controllers
             }
         }
 
-        // DELETE api/<InstructorController>/5
+        // DELETE api/<GrupoController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var instructor = await _context.Instructores.FindAsync(id);
-                if (instructor == null)
+                var grupo = await _context.Grupos.FindAsync(id);
+                if (grupo == null)
                 {
                     return NotFound();
                 }
-                _context.Instructores.Remove(instructor);
+                _context.Grupos.Remove(grupo);
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "Instructor eliminado exitosamente" });
+                return Ok(new { message = "Grupo eliminado exitosamente" });
             }
             catch (Exception ex)
             {

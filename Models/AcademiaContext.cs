@@ -17,13 +17,11 @@ public partial class AcademiaContext : DbContext
 
     public virtual DbSet<Academia> Academias { get; set; }
 
-    public virtual DbSet<Alumno> Alumnos { get; set; }
+    public virtual DbSet<Agendum> Agenda { get; set; }
 
     public virtual DbSet<Colonia> Colonias { get; set; }
 
     public virtual DbSet<Cp> Cps { get; set; }
-
-    public virtual DbSet<DatosAlumno> DatosAlumnos { get; set; }
 
     public virtual DbSet<Dia> Dias { get; set; }
 
@@ -45,6 +43,8 @@ public partial class AcademiaContext : DbContext
 
     public virtual DbSet<Matricula> Matriculas { get; set; }
 
+    public virtual DbSet<MatriculasView> MatriculasViews { get; set; }
+
     public virtual DbSet<Municipio> Municipios { get; set; }
 
     public virtual DbSet<Padre> Padres { get; set; }
@@ -53,7 +53,11 @@ public partial class AcademiaContext : DbContext
 
     public virtual DbSet<Paise> Paises { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     public virtual DbSet<Username> Usernames { get; set; }
+
+    public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -87,34 +91,30 @@ public partial class AcademiaContext : DbContext
                 .HasConstraintName("idDirecciones3");
         });
 
-        modelBuilder.Entity<Alumno>(entity =>
+        modelBuilder.Entity<Agendum>(entity =>
         {
-            entity.HasKey(e => e.Idalumnos).HasName("PRIMARY");
+            entity.HasKey(e => e.IdAgenda).HasName("PRIMARY");
 
-            entity.ToTable("alumnos");
+            entity.ToTable("agenda");
 
-            entity.HasIndex(e => e.User, "user_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.IdAgenda, "idAgenda_UNIQUE").IsUnique();
 
-            entity.Property(e => e.Idalumnos).HasColumnName("idalumnos");
-            entity.Property(e => e.Apellidos)
-                .HasMaxLength(50)
-                .HasColumnName("apellidos");
-            entity.Property(e => e.Contacto)
+            entity.Property(e => e.IdAgenda).HasColumnName("idAgenda");
+            entity.Property(e => e.AllDay)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("allDay");
+            entity.Property(e => e.Color)
                 .HasMaxLength(45)
-                .HasColumnName("contacto");
-            entity.Property(e => e.FechaNacimiento).HasColumnName("fechaNacimiento");
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(50)
-                .HasColumnName("nombre");
-            entity.Property(e => e.Telefono)
-                .HasMaxLength(20)
-                .HasColumnName("telefono");
-            entity.Property(e => e.TelefonoContacto)
+                .HasColumnName("color");
+            entity.Property(e => e.End)
+                .HasColumnType("datetime")
+                .HasColumnName("end");
+            entity.Property(e => e.Start)
+                .HasColumnType("datetime")
+                .HasColumnName("start");
+            entity.Property(e => e.Title)
                 .HasMaxLength(45)
-                .HasColumnName("telefonoContacto");
-            entity.Property(e => e.User)
-                .HasMaxLength(45)
-                .HasColumnName("user");
+                .HasColumnName("title");
         });
 
         modelBuilder.Entity<Colonia>(entity =>
@@ -155,13 +155,6 @@ public partial class AcademiaContext : DbContext
                 .HasForeignKey(d => d.IdMunicipios)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idMunicipios");
-        });
-
-        modelBuilder.Entity<DatosAlumno>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("datos_alumnos");
         });
 
         modelBuilder.Entity<Dia>(entity =>
@@ -225,25 +218,16 @@ public partial class AcademiaContext : DbContext
 
             entity.ToTable("grupos");
 
-            entity.HasIndex(e => e.IdAcademias, "idAcademias_idx");
-
             entity.HasIndex(e => e.IdInstructores, "idInstructores_idx");
 
             entity.Property(e => e.Idgrupos).HasColumnName("idgrupos");
-            entity.Property(e => e.IdAcademias).HasColumnName("idAcademias");
             entity.Property(e => e.IdInstructores).HasColumnName("idInstructores");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(45)
                 .HasColumnName("nombre");
 
-            entity.HasOne(d => d.IdAcademiasNavigation).WithMany(p => p.Grupos)
-                .HasForeignKey(d => d.IdAcademias)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("idAcademias");
-
             entity.HasOne(d => d.IdInstructoresNavigation).WithMany(p => p.Grupos)
                 .HasForeignKey(d => d.IdInstructores)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idInstructores");
         });
 
@@ -253,9 +237,11 @@ public partial class AcademiaContext : DbContext
                 .HasNoKey()
                 .ToView("grupos_view");
 
+            entity.Property(e => e.IdInstructores).HasColumnName("idInstructores");
             entity.Property(e => e.Idgrupos).HasColumnName("idgrupos");
             entity.Property(e => e.Instructor)
-                .HasMaxLength(91)
+                .HasMaxLength(101)
+                .HasDefaultValueSql("''")
                 .HasColumnName("instructor");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(45)
@@ -357,24 +343,38 @@ public partial class AcademiaContext : DbContext
 
             entity.ToTable("matriculas");
 
-            entity.HasIndex(e => e.IdAlumnos, "idAlumnos_idx");
-
             entity.HasIndex(e => e.IdGrupos, "idGrupos_idx");
 
             entity.Property(e => e.Idmatriculas).HasColumnName("idmatriculas");
             entity.Property(e => e.FechaIngreso).HasColumnName("fechaIngreso");
-            entity.Property(e => e.IdAlumnos).HasColumnName("idAlumnos");
             entity.Property(e => e.IdGrupos).HasColumnName("idGrupos");
-
-            entity.HasOne(d => d.IdAlumnosNavigation).WithMany(p => p.Matriculas)
-                .HasForeignKey(d => d.IdAlumnos)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("idAlumnos2");
+            entity.Property(e => e.IdUsuarios).HasColumnName("idUsuarios");
 
             entity.HasOne(d => d.IdGruposNavigation).WithMany(p => p.Matriculas)
                 .HasForeignKey(d => d.IdGrupos)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idGrupos");
+        });
+
+        modelBuilder.Entity<MatriculasView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("matriculas_view");
+
+            entity.Property(e => e.Apellidos)
+                .HasMaxLength(50)
+                .HasColumnName("apellidos");
+            entity.Property(e => e.FechaIngreso).HasColumnName("fechaIngreso");
+            entity.Property(e => e.IdGrupos).HasColumnName("idGrupos");
+            entity.Property(e => e.IdUsuarios).HasColumnName("idUsuarios");
+            entity.Property(e => e.Idmatriculas).HasColumnName("idmatriculas");
+            entity.Property(e => e.NombreAlumno)
+                .HasMaxLength(50)
+                .HasColumnName("nombreAlumno");
+            entity.Property(e => e.NombreGrupo)
+                .HasMaxLength(45)
+                .HasColumnName("nombreGrupo");
         });
 
         modelBuilder.Entity<Municipio>(entity =>
@@ -424,27 +424,32 @@ public partial class AcademiaContext : DbContext
 
         modelBuilder.Entity<Pago>(entity =>
         {
-            entity.HasKey(e => e.Idpagos).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("pagos");
 
-            entity.HasIndex(e => e.IdAlumnos, "idAlumnos_idx");
-
-            entity.Property(e => e.Idpagos).HasColumnName("idpagos");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Concepto)
-                .HasMaxLength(100)
+                .HasMaxLength(45)
                 .HasColumnName("concepto");
-            entity.Property(e => e.Fecha).HasColumnName("fecha");
-            entity.Property(e => e.IdAlumnos).HasColumnName("idAlumnos");
-            entity.Property(e => e.Importe).HasColumnName("importe");
-            entity.Property(e => e.MedioPago)
+            entity.Property(e => e.EmailComprador)
+                .HasMaxLength(45)
+                .HasColumnName("emailComprador");
+            entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
+            entity.Property(e => e.IdUsuarios).HasColumnName("idUsuarios");
+            entity.Property(e => e.Monto)
+                .HasPrecision(10)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("monto");
+            entity.Property(e => e.PaymentType)
                 .HasMaxLength(20)
-                .HasColumnName("medioPago");
-
-            entity.HasOne(d => d.IdAlumnosNavigation).WithMany(p => p.Pagos)
-                .HasForeignKey(d => d.IdAlumnos)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("idAlumnos");
+                .HasColumnName("paymentType");
+            entity.Property(e => e.Status)
+                .HasMaxLength(100)
+                .HasColumnName("status");
+            entity.Property(e => e.Unidades)
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("unidades");
         });
 
         modelBuilder.Entity<Paise>(entity =>
@@ -459,6 +464,20 @@ public partial class AcademiaContext : DbContext
                 .HasColumnName("nombre");
         });
 
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Idroles).HasName("PRIMARY");
+
+            entity.ToTable("roles", tb => tb.HasComment("	"));
+
+            entity.HasIndex(e => e.Idroles, "idroles_UNIQUE").IsUnique();
+
+            entity.Property(e => e.Idroles).HasColumnName("idroles");
+            entity.Property(e => e.Rol)
+                .HasMaxLength(45)
+                .HasColumnName("rol");
+        });
+
         modelBuilder.Entity<Username>(entity =>
         {
             entity.HasKey(e => e.Idusernames).HasName("PRIMARY");
@@ -468,10 +487,52 @@ public partial class AcademiaContext : DbContext
             entity.HasIndex(e => e.Username1, "username_UNIQUE").IsUnique();
 
             entity.Property(e => e.Idusernames).HasColumnName("idusernames");
-            entity.Property(e => e.IdAlumnos).HasColumnName("idAlumnos");
+            entity.Property(e => e.IdUsuarios).HasColumnName("idUsuarios");
             entity.Property(e => e.Username1)
                 .HasMaxLength(45)
                 .HasColumnName("username");
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(e => e.IdUsuarios).HasName("PRIMARY");
+
+            entity.ToTable("usuarios");
+
+            entity.HasIndex(e => e.IdRoles, "roles_idx");
+
+            entity.HasIndex(e => e.Email, "user_UNIQUE").IsUnique();
+
+            entity.Property(e => e.IdUsuarios).HasColumnName("idUsuarios");
+            entity.Property(e => e.Apellidos)
+                .HasMaxLength(50)
+                .HasColumnName("apellidos");
+            entity.Property(e => e.Contacto)
+                .HasMaxLength(45)
+                .HasColumnName("contacto");
+            entity.Property(e => e.Email)
+                .HasMaxLength(45)
+                .HasDefaultValueSql("'noEmail'")
+                .HasColumnName("email");
+            entity.Property(e => e.FechaNacimiento).HasColumnName("fechaNacimiento");
+            entity.Property(e => e.IdRoles).HasColumnName("idRoles");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(50)
+                .HasColumnName("nombre");
+            entity.Property(e => e.Password)
+                .HasMaxLength(45)
+                .HasDefaultValueSql("'12345678'")
+                .HasColumnName("password");
+            entity.Property(e => e.Telefono)
+                .HasMaxLength(20)
+                .HasColumnName("telefono");
+            entity.Property(e => e.TelefonoContacto)
+                .HasMaxLength(45)
+                .HasColumnName("telefonoContacto");
+
+            entity.HasOne(d => d.IdRolesNavigation).WithMany(p => p.Usuarios)
+                .HasForeignKey(d => d.IdRoles)
+                .HasConstraintName("roles");
         });
 
         OnModelCreatingPartial(modelBuilder);

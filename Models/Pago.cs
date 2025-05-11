@@ -5,17 +5,23 @@ namespace Server.Models;
 
 public partial class Pago
 {
-    public int Idpagos { get; set; }
+    public int Id { get; set; }
 
-    public int IdAlumnos { get; set; }
+    public long? PaymentId { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public DateTime? FechaCreacion { get; set; }
 
-    public float Importe { get; set; }
+    public decimal? Monto { get; set; }
 
-    public string Concepto { get; set; } = null!;
+    public string? Status { get; set; }
 
-    public string MedioPago { get; set; } = null!;
+    public string? PaymentType { get; set; }
 
-    public virtual Alumno IdAlumnosNavigation { get; set; } = null!;
+    public string? EmailComprador { get; set; }
+
+    public int? IdUsuarios { get; set; }
+
+    public int? Unidades { get; set; }
+
+    public string? Concepto { get; set; }
 }

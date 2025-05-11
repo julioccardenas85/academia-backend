@@ -1,12 +1,3 @@
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.csproj.AssemblyReference.cache
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.GeneratedMSBuildEditorConfig.editorconfig
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.AssemblyInfoInputs.cache
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.AssemblyInfo.cs
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.csproj.CoreCompileInputs.cache
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.MvcApplicationPartsAssemblyInfo.cs
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.MvcApplicationPartsAssemblyInfo.cache
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.RazorAssemblyInfo.cache
-D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.RazorAssemblyInfo.cs
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\appsettings.Development.json
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\appsettings.json
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\Server.exe
@@ -242,6 +233,13 @@ D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\runtimes\win\lib\net6.0\Sys
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.csproj.AssemblyReference.cache
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.AssemblyInfoInputs.cache
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.AssemblyInfo.cs
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.csproj.CoreCompileInputs.cache
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.MvcApplicationPartsAssemblyInfo.cs
+D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.MvcApplicationPartsAssemblyInfo.cache
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\staticwebassets\msbuild.Server.Microsoft.AspNetCore.StaticWebAssets.props
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\staticwebassets\msbuild.build.Server.props
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Server.props
@@ -256,3 +254,6 @@ D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\refint\Server.dll
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.pdb
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\Server.genruntimeconfig.cache
 D:\Proyectos\AcadeMia\Server\Server\obj\Debug\net7.0\ref\Server.dll
+D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\MercadoPago.dll
+D:\Proyectos\AcadeMia\Server\Server\bin\Debug\net7.0\RestSharp.dll

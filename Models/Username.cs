@@ -9,5 +9,5 @@ public partial class Username
 
     public string Username1 { get; set; } = null!;
 
-    public int IdAlumnos { get; set; }
+    public int IdUsuarios { get; set; }
 }
